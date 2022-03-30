@@ -1,16 +1,16 @@
 <template>
-    <div class="recoproducts">
-        wishreco
-        <NuxtLink :to="`/Details/${product.id}`">
-            <div class="recoproductsImgBox">
-                <img :src="product.image" alt="">
-            </div>
-        </NuxtLink>
-        <p class="title">{{ product.title }}</p>
-        <p class="price">${{ product.price }} <i class="material-icons">shopping_cart</i></p> 
-        <i class="material-icons wish" @click="favControl(product.id)">{{ wish }}</i>
-    </div>
-    
+    <transition name="wish" appear>
+        <div class="recoproducts">
+            <NuxtLink :to="`/Details/${product.id}`">
+                <div class="recoproductsImgBox">
+                    <img :src="product.image" alt="">
+                </div>
+            </NuxtLink>
+            <p class="title">{{ product.title }}</p>
+            <p class="price">${{ product.price }} <i @click="addToCart(product.id)" class="material-icons">shopping_cart</i></p> 
+            <i class="material-icons wish" @click="deleteFromLS(product.id)">favorite</i>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -18,57 +18,32 @@ export default {
     props: ['product'],
     data() {
         return {
-            fav: false
+            
         }
     },
     methods: {
-        // functions that saves to local storage
-        saveToLS (id) {
-            if (!localStorage.getItem('favorites')) {
-                localStorage.setItem('favorites', '[]')
-            }
-            let oldData = JSON.parse(localStorage.getItem('favorites'))
-            oldData.push(id)
-            
-            localStorage.setItem('favorites', JSON.stringify(oldData))
-        },
         // function that deletes from local storage
         deleteFromLS (id) {
             let favs = JSON.parse(localStorage.getItem('favorites'))
             localStorage.setItem('favorites', JSON.stringify(favs.filter(favId => favId !== id)))
+            this.$emit('reloadCart', this.product.id)
         },
-        // function that controls whether to add or delete from local storage
-        favControl(id) {
-            if (!localStorage.getItem('favorites')) {
-                localStorage.setItem('favorites', '[]')
+        // section for adding to cart functions
+
+        addToCart(id) {
+            if (!localStorage.getItem('cart')) {
+                localStorage.setItem('cart', '[]')
             }
-            let favs = JSON.parse(localStorage.getItem('favorites'))
-            if (favs.includes(id)) {
-                this.deleteFromLS(id)
-                this.fav = false
+            let carted = JSON.parse(localStorage.getItem('cart'))
+            if (carted.includes(id)) {
+                alert('this product has been added to cart')
             } else {
-                this.saveToLS(id)
-                this.fav = true
+                let oldData = JSON.parse(localStorage.getItem('cart'))
+                oldData.push(id)
+                localStorage.setItem('cart', JSON.stringify(oldData))
             }
             
-        }
-    },
-    computed: {
-        wish() {
-            if (this.fav) {
-                return 'favorite'
-            } else {
-                return 'favorite_border'
-            }
-        }
-    },
-    mounted() {
-        let favs = JSON.parse(localStorage.getItem('favorites'))
-        if (favs !== null && favs.includes(this.product.id)) {
-            this.fav = true
-        } else {
-            this.fav = false
-        }
+        },
     }
 
 }
@@ -137,5 +112,22 @@ div.recoproducts{
 }
 .recoproducts .price i{
     vertical-align: middle;
+}
+.wish-enter{
+    opacity: 0;
+    transform: scale(0.5);
+}
+.wish-leave-to {
+  opacity: 0;
+}
+.wish-enter-active{
+    transition: opacity .5s ease-in-out;
+} 
+.wish-leave-active {
+  transition: opacity .5s ease-in-out;
+  position: absolute;
+}
+.wish-move{
+    transition: all 0.5s ease;
 }
 </style>

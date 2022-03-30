@@ -12,7 +12,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .homeslider{
     height: 200px;
     position: absolute;

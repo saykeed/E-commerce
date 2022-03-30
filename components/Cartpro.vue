@@ -13,7 +13,7 @@
       <div class="lower">
           <div class="favAndRemove">
               <i class="material-icons fav">favorite_border</i>
-              <p><i class="material-icons">delete</i>
+              <p @click="removeItem" ><i class="material-icons">delete</i>
                   REMOVE
               </p>
           </div>
@@ -48,6 +48,15 @@ export default {
                 this.$emit('minusUpdatePrice', this.product.price)
             }
             
+        },
+        deleteFromLS (id) {
+            let carted = JSON.parse(localStorage.getItem('cart'))
+            localStorage.setItem('cart', JSON.stringify(carted.filter(favId => favId !== id)))
+        },
+        removeItem() {
+            this.$emit('removeItem', this.product.id)
+            this.$emit('minusUpdatePrice', this.product.price)
+            this.deleteFromLS(this.product.id)
         }
     },
     mounted() {
@@ -69,6 +78,7 @@ export default {
         align-items: center;
         justify-content: space-between;
         padding: 0 20px;
+        min-height: 100px;
     }
     .proImg{
         width: 30%;

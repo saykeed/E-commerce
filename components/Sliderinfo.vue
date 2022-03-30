@@ -1,5 +1,5 @@
 <template>
-    <transition name="sliderDetails">
+    <transition :name="slideName">
         <div :class="{bannerTextRight: index == 1, bannerTextLeft: index != 1}"  
             v-show="index == visibleSlide">
             <p>{{ banner.para }}</p>
@@ -15,7 +15,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .bannerTextLeft{
         position: absolute;
         top: 50%;
@@ -46,11 +46,17 @@ export default {
         cursor: pointer;
         display: inline-block;
     }
-    .sliderDetails-enter-active{
+    .left-enter-active{
         animation: dropin 1s ease-in-out;
     }
-    .sliderDetails-leave-active{
+    .left-leave-active{
         animation: dropout 1s ease-in-out
+    }
+    .right-enter-active{
+        animation: jumpin 1s ease-in-out;
+    }
+    .right-leave-active{
+        animation: jumpout 1s ease-in-out
     }
     @keyframes dropin{
         from{opacity: 0;
@@ -61,6 +67,16 @@ export default {
         from{opacity: 1;}
         to{opacity: 0;
         transform: translateY(100px);}
+    }
+    @keyframes jumpin{
+        from{opacity: 0;
+            transform: translateY(100px);}
+        to{opacity: 1; }
+    }
+    @keyframes jumpout{
+        from{opacity: 1;}
+        to{opacity: 0;
+        transform: translateY(-100px);}
     }
 </style>
 

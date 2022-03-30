@@ -11,6 +11,7 @@
           @updatePrice="updatePrice"
           @addUpdatePrice="updatePrice"
           @minusUpdatePrice="minusUpdatePrice"
+          @removeItem="removeItem"
            />
       </div>
       <div class="totalBox">
@@ -27,25 +28,43 @@ export default {
   layout: 'nonav',
   data() {
     return{
+      cart: [],
       totalPrice: 0
     }
   },
   methods: {
+    async fetchCart(id) {
+        this.cart.push(
+            await fetch('https://fakestoreapi.com/products/' + id).then(res => res.json())
+        )
+    },
+    loadCart() {
+        let carted = JSON.parse(localStorage.getItem('cart'))
+        for (let i = 0; i < carted.length; i++) {
+            this.fetchCart(carted[i])
+        }
+    },
     updatePrice(price) {
       this.totalPrice += price
     },
     minusUpdatePrice(price) {
       this.totalPrice -= price
     },
+    removeItem(id) {
+      this.cart = this.cart.filter(item => item.id != id)
+    },
     completeOrder() {
       alert('Oga u go need to log in ooooo')
     }
   },
   computed: {
-    ...mapState(['cart']),
+    // ...mapState(['cart']),
     totalPriceRounded() {
       return this.totalPrice.toFixed(2)
     }
+  },
+  mounted() {
+      this.loadCart()
   }
 }
 </script>

@@ -4,18 +4,17 @@
             v-for="product in products"
             :key="product.id"
             :product="product"
+            @reloadCart="reloadCart"
         />
     </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
 export default {
     layout: 'default',
     data() {
         return {
-            products: [],
-            favId: []
+            products: []
         }
     },
     methods: {
@@ -29,6 +28,9 @@ export default {
             for (let i = 0; i < favs.length; i++) {
                 this.fetchCart(favs[i])
             }
+        },
+        reloadCart(id) {
+            this.products = this.products.filter(item => item.id != id)
         }
     },
     mounted() {

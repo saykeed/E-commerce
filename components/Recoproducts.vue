@@ -6,7 +6,7 @@
             </div>
         </NuxtLink>
         <p class="title">{{ product.title }}</p>
-        <p class="price">${{ product.price }} <i class="material-icons">shopping_cart</i></p> 
+        <p class="price">${{ product.price }} <i @click="addToCart(product.id)" class="material-icons">shopping_cart</i></p> 
         <i class="material-icons wish" @click="favControl(product.id)">{{ wish }}</i>
     </div>
     
@@ -23,9 +23,6 @@ export default {
     methods: {
         // functions that saves to local storage
         saveToLS (id) {
-            if (!localStorage.getItem('favorites')) {
-                localStorage.setItem('favorites', '[]')
-            }
             let oldData = JSON.parse(localStorage.getItem('favorites'))
             oldData.push(id)
             
@@ -50,7 +47,31 @@ export default {
                 this.fav = true
             }
             
-        }
+        },
+
+
+        // section for adding to cart functions
+
+        // functions that saves to local storage
+        saveToCartLS (id) {
+            
+            let oldData = JSON.parse(localStorage.getItem('cart'))
+            oldData.push(id)
+            
+            localStorage.setItem('cart', JSON.stringify(oldData))
+        },
+        addToCart(id) {
+            if (!localStorage.getItem('cart')) {
+                localStorage.setItem('cart', '[]')
+            }
+            let carted = JSON.parse(localStorage.getItem('cart'))
+            if (carted.includes(id)) {
+                alert('this product has been added to cart')
+            } else {
+                this.saveToCartLS(id)
+            }
+            
+        },
     },
     computed: {
         wish() {
