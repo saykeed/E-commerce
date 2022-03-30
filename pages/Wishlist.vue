@@ -1,21 +1,45 @@
 <template>
     <div class="wishlist">
-        <Recoproducts
-            v-for="product in cart"
+        <Wishproduct
+            v-for="product in products"
             :key="product.id"
             :product="product"
-            />
+        />
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
-layout: 'default',
-computed: {
-    ...mapState(['cart'])
+    layout: 'default',
+    data() {
+        return {
+            products: [],
+            favId: []
+        }
+    },
+    methods: {
+        async fetchCart(id) {
+            this.products.push(
+                await fetch('https://fakestoreapi.com/products/' + id).then(res => res.json())
+            )
+        },
+        loadCart() {
+            let favs = JSON.parse(localStorage.getItem('favorites'))
+            for (let i = 0; i < favs.length; i++) {
+                this.fetchCart(favs[i])
+            }
+        }
+    },
+    mounted() {
+        this.loadCart()
+    }
+
+    
 }
-}
+
+
+
 </script>
 
 <style>
@@ -26,3 +50,10 @@ computed: {
         flex-wrap: wrap;
     }
 </style>
+
+
+/*  
+
+
+
+*/

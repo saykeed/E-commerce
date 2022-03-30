@@ -1,5 +1,6 @@
 <template>
     <div class="recoproducts">
+        wishreco
         <NuxtLink :to="`/Details/${product.id}`">
             <div class="recoproductsImgBox">
                 <img :src="product.image" alt="">

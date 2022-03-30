@@ -17,12 +17,7 @@ export default {
       details: null
     }
   }, 
-  computed: {
-    // ...mapGetters(['getProductById']),
-    // productDetail() {
-    //   return this.getProductById(this.productID)
-    // }
-  },
+  computed: { },
   async fetch() {
     this.details = await fetch(
       'https://fakestoreapi.com/products/' + this.productID

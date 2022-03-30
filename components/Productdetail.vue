@@ -57,6 +57,9 @@ export default {
         },
         // function that controls whether to add or delete from local storage
         favControl(id) {
+            if (!localStorage.getItem('favorites')) {
+                localStorage.setItem('favorites', '[]')
+            }
             let favs = JSON.parse(localStorage.getItem('favorites'))
             if (favs.includes(id)) {
                 this.deleteFromLS(id)
