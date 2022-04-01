@@ -100,6 +100,7 @@ div.recoproducts{
     margin: 3% 2%;
     position: relative;
     padding: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.200), -2px -2px 5px rgba(0, 0, 0, 0.200);
 }
 .recoproducts i.wish{
     position: absolute;

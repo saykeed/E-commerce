@@ -12,13 +12,18 @@
             </div>
             <p>Or Continue with Email:</p>
             <form class="signupForm" @submit.prevent="register">
+                <p>Full Name</p>
+                <input type="text" name="fullname" v-model="fullname" required>
                 <p>Email Address</p>
                 <input type="email" name="email" v-model="email" required>
+                <p>Profile Picture</p>
+                <input type="file" name="profilePic" @change="getPhoto" required>
                 <p>Password</p>
                 <input type="password" name="password" v-model="password" required>
-                <button>Create Account</button>
+                <button :disabled="imageDone == false">Create Account</button>
             </form>
             <p class="already">Already have an account? <NuxtLink to="/login"> Log in</NuxtLink></p>
+            
       </div>
       
       
@@ -30,29 +35,67 @@ export default {
     layout: 'nonav',
     data() {
         return{
+            fullname: '',
             email: '',
-            password: ''
+            profilePic: '',
+            password: '',
+            imageDone: false
         }
     },
     methods: {
-        regUser(user) {
+        loginUser() {
             alert('account created successful')
             this.$router.push('/')
+        },
+        async regUser(user) {
+            await this.$fire.authReady()
+            await this.$fire.auth.onAuthStateChanged((user) => {
+                if(user) {
+                        user.updateProfile({
+                        displayName: this.fullname, 
+                        photoURL: this.profilePic
+                    }).then(() => {
+                        console.log('updated')
+                        this.loginUser()
+                    })
+                    .catch(err => console.log(err))
+                } else {
+                    console.log('no user found')
+                }
+            })
         },
         regError(err) {
             alert(err)
             //console.log(err)
         },
-        register() {
-            this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
+        async getPhoto(e) {
+            let photo = e.target.files[0]
+            let dateInstance = new Date().getTime()
+            await this.$fire.storageReady()
+            await this.$fire.storage.ref(photo.name +'_'+ dateInstance).put(photo)
+            this.$fire.storage.ref(photo.name +'_'+ dateInstance).getDownloadURL()
+            .then(url => {
+                this.profilePic = url
+                this.imageDone = true
+            })
+            .catch(err => console.log(err))
+
+
+            
+        },
+        async register() {
+            await this.$fire.authReady()
+            await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
             .then(user => this.regUser(user))
             .catch(err => this.regError(err))
+            
         }
     }
 }
 </script>
 
 <style scoped>
+
 .signup{
     width: 90%;
     margin: 0 auto;
@@ -72,10 +115,8 @@ export default {
     cursor: pointer;
 }
 .signupWrap{
-    position: absolute;
-    top: 50%;
     width: 100%;
-    transform: translateY(-50%);
+    margin-top: 60px;
 }
 .signupBtn{
     display: flex;
@@ -123,6 +164,11 @@ export default {
     margin: 15px auto;
     color: white;
 }
+.signupForm button:disabled{
+    background: rgba(0, 0, 0, 0.256);
+    color: rgba(0, 0, 0, 0.435);
+    cursor:not-allowed;
+}
 .signup p.already{
     color: rgba(0, 0, 0, 0.535);
 }
@@ -130,3 +176,13 @@ export default {
     color: red;
 }
 </style>
+
+
+/*  
+
+
+
+alert('account created successful')
+            this.$router.push('/')
+
+*/

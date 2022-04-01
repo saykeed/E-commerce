@@ -7,10 +7,10 @@
     <div class="accountWrap">
       <div class="accountHolder">
         <div class="accountImg">
-          <i class="material-icons">account_circle</i>
+          <img :src="img" alt="User image">
         </div>
-        <p>Oyeyinka Oyerinde</p>
-        <p>oyeyinka@example.com</p>
+        <p>{{ fullname }}</p>
+        <p>{{ email }}</p>
       </div>
       <div class="accountInfoTab">
         <p>My Account</p>
@@ -36,15 +36,40 @@ export default {
         {text: 'Saved Addresses', icon: 'location_on'},
         {text: 'Payment details', icon: 'credit_card'},
         {text: 'Need help? Contact us', icon: 'help'}
-      ]
+      ],
+      fullname: '',
+      email: '',
+      img: ''
+
     }
   },
   methods: {
-    logout() {
-      this.$fire.auth.signOut()
-      .then(user => alert(user + 'logout succesfully'))
+    async logout() {
+      await this.$fire.authReady()
+      await this.$fire.auth.signOut()
+      .then(user => alert('logout succesfully'))
       .catch(err => alert(err))
+    },
+    getUserData(data) {
+      console.log(data)
+      this.fullname = data.displayName
+      this.email = data.email
+      this.img = data.photoURL
+    },
+    async checkUser() {
+        await this.$fire.authReady()
+        await this.$fire.auth.onAuthStateChanged((user) => {
+            if (!user) {
+              this.$router.push('/login')
+            } else {
+              this.getUserData(user)
+            }
+        })
+        
     }
+  },
+  mounted() {
+    this.checkUser()
   }
 }
 </script>
@@ -75,6 +100,13 @@ export default {
     justify-content: center;
     margin: 10px auto;
   }
+  .accountImg img{
+    width: 90%;
+    height: 90%;
+    border-radius: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
   .accountHolder p{
     margin: 10px auto;
   }
@@ -99,6 +131,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     margin: 25px auto;
+    cursor: pointer;
   }
   .accountOptions i{
     vertical-align: middle;
@@ -114,6 +147,7 @@ export default {
   }
   .accountWrap .logout{
     margin: 15px auto;
+    cursor: pointer;
   }
   
 </style>

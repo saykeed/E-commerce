@@ -1,8 +1,9 @@
 <template>
   <div class="login">
       <div class="loginHeader">
-          Welcome Back
-          <i class="material-icons" @click="$router.back()">close</i>
+          <i class="material-icons" @click="$router.back()">chevron_left</i>
+          <p>Welcome Back</p>
+          <NuxtLink to="/" class="loginHome"><i class="material-icons">home</i></NuxtLink>
       </div>
       <div class="loginwrap">
             <p>Log in with</p>
@@ -37,15 +38,16 @@ export default {
     },
     methods: {
         regUser(user) {
-            alert('logged in successful')
-            this.$router.push('/')
+            alert('logged in successfully')
+            this.$router.go(-1)
         },
         regError(err) {
             alert(err)
             //console.log(err)
         },
-        login() {
-            this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
+        async login() {
+            await this.$fire.authReady()
+            await this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
             .then(user => this.regUser(user))
             .catch(err => this.regError(err))
         }
@@ -53,29 +55,29 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .login{
         height: 100vh;
-        position: relative;
         width: 90%;
         margin: 0 auto;
     }
     .loginHeader{
-        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         text-align: center;
         margin: 20px auto;
     }
     .loginHeader i{
-        position: absolute;
-        left: 0;
-        top: 0;
+        cursor: pointer;
+    }
+    a.loginHome{
+        text-decoration: none;
+        color: black;
         cursor: pointer;
     }
     .loginwrap{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0;
+        margin: 50px auto;
         width: 100%;
         text-align: center;
     }

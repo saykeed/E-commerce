@@ -49,7 +49,8 @@ export default {
           measurementId: "G-H7VPX1ZB52"
         },
         services: {
-          auth: true // Just as example. Can be any other service.
+          auth: true,
+          storage: true 
         },
         lazy: true
       }
