@@ -39,6 +39,10 @@ export default {
     .footer a{
         text-decoration: none;
         color: black;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .footer a.nuxt-link-exact-active{
+        color: orange;
     }
     .footer div{
         display: flex;

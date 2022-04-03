@@ -6,13 +6,13 @@
       </div>
       <div class="cartedProducts">
           <Cartpro
-          v-for="product in cart" :key="product.id"
-          :product="product"
-          @updatePrice="updatePrice"
-          @addUpdatePrice="updatePrice"
-          @minusUpdatePrice="minusUpdatePrice"
-          @removeItem="removeItem"
-           />
+            v-for="product in cart" :key="product.id"
+            :product="product"
+            @updatePrice="updatePrice"
+            @addUpdatePrice="updatePrice"
+            @minusUpdatePrice="minusUpdatePrice"
+            @removeItem="removeItem"
+          />
       </div>
       <div class="totalBox">
         <p>Total: <span>$ {{ totalPriceRounded }}</span></p>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   layout: 'nonav',
   data() {
@@ -53,19 +52,26 @@ export default {
     removeItem(id) {
       this.cart = this.cart.filter(item => item.id != id)
     },
+    loadPayment(user) {
+      //this.$router.push('/Checkout/')
+      this.$router.push({ path: '/Checkout/', query: {
+        user: user,
+        cart: this.cart
+      } })
+    },
     async completeOrder() {
-      await this.$fire.authReady()
-      await this.$fire.auth.onAuthStateChanged((user) => {
-        if(user) {
-          console.log(user)
-        } else{
-          console.log('not logged in')
-        }
-      })
+        await this.$fire.authReady()
+        await this.$fire.auth.onAuthStateChanged((user) => {
+            if (!user) {
+              alert('You need to login')
+              this.$router.push('/login')
+            } else {
+              this.loadPayment(user)
+            }
+        })
     }
   },
   computed: {
-    // ...mapState(['cart']),
     totalPriceRounded() {
       return this.totalPrice.toFixed(2)
     }
@@ -99,6 +105,7 @@ export default {
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
   }
   .cartedProducts {
     margin-top: 50px;

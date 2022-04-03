@@ -9,7 +9,6 @@
         <p class="price">${{ product.price }} <i @click="addToCart(product.id)" class="material-icons">shopping_cart</i></p> 
         <i class="material-icons wish" @click="favControl(product.id)">{{ wish }}</i>
     </div>
-    
 </template>
 
 <script>
@@ -101,6 +100,7 @@ div.recoproducts{
     position: relative;
     padding: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.200), -2px -2px 5px rgba(0, 0, 0, 0.200);
+    border-radius: 10px;
 }
 .recoproducts i.wish{
     position: absolute;

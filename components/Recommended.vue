@@ -2,7 +2,6 @@
   <div class="recommended">
         <div class="recomendHeader">
             <p>Recommeded for you</p>
-            <NuxtLink to="/">See all</NuxtLink>
         </div>
         <Loading v-if="!products"/>
         <div class="recoProductsBox">
@@ -41,7 +40,7 @@ export default {
     .recomendHeader{
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         margin: 20px auto;
         width: 90%;
     }
