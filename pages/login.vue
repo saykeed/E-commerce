@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+      <Loading 
+        v-if="loader"
+      />
       <div class="loginHeader">
           <i class="material-icons" @click="$router.back()">chevron_left</i>
           <p>Welcome Back</p>
@@ -17,8 +20,8 @@
                 <input type="email" name="email" v-model="email" required>
                 <p>Password</p>
                 <div class="passwordBox">
-                    <input type="password" name="password" v-model="password" required>
-                    <i class="material-icons" >remove_red_eye</i>
+                    <input type="password" name="password" v-model="password" ref="passwordInput" required>
+                    <i class="material-icons" @click="togglePasswordVisibility">remove_red_eye</i>
                 </div>
                 <button>Log In</button>
             </form>
@@ -32,24 +35,38 @@ export default {
     layout: 'nonav',
     data() {
         return{
+            loader: false,
             email: '',
             password: ''
         }
     },
     methods: {
         regUser(user) {
-            alert('logged in successfully')
             this.$router.go(-1)
         },
         regError(err) {
             alert(err)
-            //console.log(err)
         },
         async login() {
+            this.loader = true
             await this.$fire.authReady()
             await this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
-            .then(user => this.regUser(user))
-            .catch(err => this.regError(err))
+            .then(user => {
+                this.loader = false
+                this.regUser(user)
+            })
+            .catch(err => {
+                this.loader = false
+                this.regError(err)
+            })
+        },
+        togglePasswordVisibility() {
+            let x = this.$refs.passwordInput
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
         }
     }
 }

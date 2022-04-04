@@ -7,8 +7,8 @@
       <div class="signupWrap">
             <p>Sign Up with:</p>
             <div class="signupBtn">
-                <div><img src="@/assets/img/google_svg.png" alt=""></div>
-                <div><img src="@/assets/img/facebook_logo.jpg" alt=""></div>
+                <div @click="signupGoogle"><img src="@/assets/img/google_svg.png" alt=""></div>
+                <div @click="signupFacebook"><img src="@/assets/img/facebook_logo.jpg" alt=""></div>
             </div>
             <p>Or Continue with Email:</p>
             <form class="signupForm" @submit.prevent="register">
@@ -25,8 +25,6 @@
             <p class="already">Already have an account? <NuxtLink to="/login"> Log in</NuxtLink></p>
             
       </div>
-      
-      
   </div>
 </template>
 
@@ -89,6 +87,17 @@ export default {
             .then(user => this.regUser(user))
             .catch(err => this.regError(err))
             
+        },
+        async signupGoogle() {
+            await this.$fire.authReady()
+            let provider = new this.$fire.auth.GoogleAuthProvider()
+            console.log(provider)
+            //var provider = await this.$firebase.auth
+            //let provider = this.$fire.auth.GoogleAuthProvider() .GoogleAuthProvider()
+            //console.log(provider)
+        },
+        async signupFacebook() {
+
         }
     }
 }

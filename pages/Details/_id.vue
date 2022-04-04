@@ -1,6 +1,8 @@
 <template>
   <div class="detailsPage">
-      <p v-if="$fetchState.pending">fetching product....</p>
+      <Loading 
+        v-if="$fetchState.pending"
+      />
       <Productdetail 
       v-else
       :details="details"
@@ -22,12 +24,14 @@ export default {
     this.details = await fetch(
       'https://fakestoreapi.com/products/' + this.productID
     ).then(res => res.json())
+    .catch(err => console.log(err))
   }
 }
 </script>
 
-<style>
+<style scoped>
   .detailsPage{
     text-align: center;
   }
+  
 </style>

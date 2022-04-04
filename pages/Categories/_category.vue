@@ -1,5 +1,8 @@
 <template>
     <div class="cats">
+        <Loading 
+            v-if="!categories"
+        />
         <Recoproducts
             v-for="product in categories"
             :key="product.id"

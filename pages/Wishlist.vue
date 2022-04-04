@@ -1,5 +1,8 @@
 <template>
     <div class="wishlist">
+        <Loading 
+            v-if="!products.length"
+        />
         <Wishproduct
             v-for="product in products"
             :key="product.id"
@@ -53,9 +56,3 @@ export default {
     }
 </style>
 
-
-/*  
-
-
-
-*/

@@ -4,6 +4,9 @@
           <i class="material-icons" @click="$router.back()">arrow_back</i>
           Cart
       </div>
+      <Loading 
+        v-if="!cart.length"
+      />
       <div class="cartedProducts">
           <Cartpro
             v-for="product in cart" :key="product.id"
@@ -16,9 +19,13 @@
       </div>
       <div class="totalBox">
         <p>Total: <span>$ {{ totalPriceRounded }}</span></p>
-        <button @click="completeOrder" class="completeOrder">COMPLETE YOUR ORDER</button>
+        <button @click="completeOrder" class="completeOrder">
+          COMPLETE YOUR Order
+        </button>
       </div>
-      
+      <Loading 
+        v-if="loader"
+      />
   </div>
 </template>
 
@@ -28,13 +35,16 @@ export default {
   data() {
     return{
       cart: [],
-      totalPrice: 0
+      totalPrice: 0,
+      loader: false
     }
   },
   methods: {
     async fetchCart(id) {
         this.cart.push(
-            await fetch('https://fakestoreapi.com/products/' + id).then(res => res.json())
+            await fetch('https://fakestoreapi.com/products/' + id)
+            .then(res => res.json())
+            .catch(err => {console.log(err)})
         )
     },
     loadCart() {
@@ -53,16 +63,17 @@ export default {
       this.cart = this.cart.filter(item => item.id != id)
     },
     loadPayment(user) {
-      //this.$router.push('/Checkout/')
+      this.loader = false
       this.$router.push({ path: '/Checkout/', query: {
-        user: user,
-        cart: this.cart
+        user: user
       } })
     },
     async completeOrder() {
+      this.loader = true
         await this.$fire.authReady()
         await this.$fire.auth.onAuthStateChanged((user) => {
             if (!user) {
+              this.loader = false
               alert('You need to login')
               this.$router.push('/login')
             } else {
@@ -138,5 +149,9 @@ export default {
     border-radius: 5px;
     margin: 20px auto;
     cursor: pointer;
+  }
+  .butLoader {
+    width: 40px;
+    height: 40px;
   }
 </style>

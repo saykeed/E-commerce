@@ -1,5 +1,8 @@
 <template>
   <div class="paymentModal">
+      <Loading 
+        v-if="loader"
+      />
       <i class="material-icons" @click="closePaymentModal">close</i>
       <div class="payment">
             <h3>Shipping</h3>
@@ -24,6 +27,7 @@
                 Proceed to pay NGN {{ toPay }}
             </div>
             <p>At a conversion rate of NGN {{ rate }}</p>
+            <p v-if="error">{{ error }}</p>
       </div>
   </div>
 </template>
@@ -33,7 +37,9 @@ export default {
     props: ['address', 'city', 'state', 'country', 'tel', 'email', 'totalAmount'],
     data() {
         return {
-            rate: null
+            rate: null,
+            loader: false,
+            error: ''
         }
     },
     methods: {
@@ -62,10 +68,19 @@ export default {
             .catch(err => console.error(err));
         },//window.location.href = 
         async getCurrentRate() {
+            this.loader = true
             await fetch('https://v6.exchangerate-api.com/v6/ce120fade5e1d2663e949d9d/pair/USD/NGN')
             .then(response => response.json())
-            .then(data => this.rate = data.conversion_rate.toFixed(2))
-            .catch(err => console.log(err))
+            .then(data => {
+                this.rate = data.conversion_rate.toFixed(2)
+                this.loader = false
+            })
+            .catch(err => {
+                this.loader = false
+                console.log(err)
+                alert('Error: Could not fetch dollar conversion rate at this moment')
+                this.error = 'Could not fetch dollar conversion rate at this moment'
+            })
         } 
     },
     computed: {
@@ -87,7 +102,7 @@ export default {
         height: 100vh;
         background: rgba(0, 0, 0, 0.854);
         color: white;
-        position: relative;
+        position: fixed;
     }
     .paymentModal i{
         position: absolute;

@@ -1,10 +1,13 @@
 <template>
   <div class="account">
+    
     <div class="accountHeader">
       <p>Profile</p>
     </div>
-    
-    <div class="accountWrap">
+    <Loading 
+      v-if="loader"
+    />
+    <div v-else class="accountWrap">
       <div class="accountHolder">
         <div class="accountImg">
           <img :src="img" alt="User image">
@@ -39,8 +42,8 @@ export default {
       ],
       fullname: '',
       email: '',
-      img: ''
-
+      img: '',
+      loader: true
     }
   },
   methods: {
@@ -51,7 +54,7 @@ export default {
       .catch(err => alert(err))
     },
     getUserData(data) {
-      console.log(data)
+      this.loader = false
       this.fullname = data.displayName
       this.email = data.email
       this.img = data.photoURL

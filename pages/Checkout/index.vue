@@ -1,17 +1,20 @@
 <template>
   <div class="checkIndex">
-    <Payment 
-      v-if="showPaymentModal" 
-      class="modal"
-      @closePaymentModal="closePaymentModal"
-      :tel="tel"
-      :email="email"
-      :address="address"
-      :city="city"
-      :state="state"
-      :country="country"
-      :totalAmount="subtotal + shipping"
-    />
+      <Payment 
+        v-if="showPaymentModal"
+        @closePaymentModal="closePaymentModal"
+        :tel="tel"
+        :email="email"
+        :address="address"
+        :city="city"
+        :state="state"
+        :country="country"
+        :totalAmount="subtotal + shipping"
+      />
+
+      <Loading 
+        v-if="!cart.length"
+      />
       <h1>Shopify</h1>
       <div class="orderSummary">
           <div class="orderSummaryHeader">
@@ -165,7 +168,6 @@ export default {
         this.getStates(code)
       },
       toSummary() {
-        alert(' done ')
         this.showPaymentModal = true
       },
       updatePrice(price) {
@@ -264,11 +266,11 @@ export default {
     .backToCart i{
       vertical-align: middle;
     }
-    .modal{
+    /* .modal{
       position: absolute;
       top: 0;
       left: 0;
-    }
+    } */
     
 
 </style>
