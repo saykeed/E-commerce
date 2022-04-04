@@ -11,8 +11,8 @@
       <div class="loginwrap">
             <p>Log in with</p>
             <div class="loginBtn">
-                <div><img src="@/assets/img/google_svg.png" alt=""></div>
-                <div><img src="@/assets/img/facebook_logo.jpg" alt=""></div>
+                <div @click="loginGoogle" ><img src="@/assets/img/google_svg.png" alt=""></div>
+                <div @click="loginFacebook"><img src="@/assets/img/facebook_logo.jpg" alt=""></div>
             </div>
             <p>Or Continue with Email</p>
             <form class="loginForm" @submit.prevent="login">
@@ -41,7 +41,7 @@ export default {
         }
     },
     methods: {
-        regUser(user) {
+        regUser() {
             this.$router.go(-1)
         },
         regError(err) {
@@ -53,7 +53,7 @@ export default {
             await this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
             .then(user => {
                 this.loader = false
-                this.regUser(user)
+                this.regUser()
             })
             .catch(err => {
                 this.loader = false
@@ -67,6 +67,36 @@ export default {
             } else {
                 x.type = "password";
             }
+        },
+        async loginGoogle() {
+            this.loader = true
+            await this.$fire.authReady()
+            let provider = new this.$fireModule.auth.GoogleAuthProvider()
+            await this.$fire.auth.signInWithPopup(provider)
+            .then((result) => {
+                this.loader= false
+                console.log(result.user.displayName)
+                this.regUser()
+            })
+            .catch((err) => {
+                this.loader = false
+                console.log(err)
+            })
+        },
+        async loginFacebook() {
+            this.loader = true
+            await this.$fire.authReady()
+            let provider = new this.$fireModule.auth.FacebookAuthProvider()
+            await this.$fire.auth.signInWithPopup(provider)
+            .then((result) => {
+                this.loader= false
+                console.log(result.user.displayName)
+                this.regUser()
+            })
+            .catch((err) => {
+                this.loader = false
+                console.log(err)
+            })
         }
     }
 }

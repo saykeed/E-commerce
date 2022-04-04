@@ -5,26 +5,34 @@
           Cart
       </div>
       <Loading 
-        v-if="!cart.length"
+        v-if="fetchLoader"
       />
-      <div class="cartedProducts">
-          <Cartpro
-            v-for="product in cart" :key="product.id"
-            :product="product"
-            @updatePrice="updatePrice"
-            @addUpdatePrice="updatePrice"
-            @minusUpdatePrice="minusUpdatePrice"
-            @removeItem="removeItem"
-          />
+
+      <Emptycart 
+        v-if="emptycart"
+      />
+      
+      <div class="cartWrap" v-if="cart.length">
+          <div class="cartedProducts" >
+              <Cartpro
+                v-for="product in cart" :key="product.id"
+                :product="product"
+                @updatePrice="updatePrice"
+                @addUpdatePrice="updatePrice"
+                @minusUpdatePrice="minusUpdatePrice"
+                @removeItem="removeItem"
+              />
+          </div>
+          <div class="totalBox">
+              <p>Total: <span>$ {{ totalPriceRounded }}</span></p>
+              <button @click="completeOrder" class="completeOrder">
+                Complete Your Order
+              </button>
+          </div>
       </div>
-      <div class="totalBox">
-        <p>Total: <span>$ {{ totalPriceRounded }}</span></p>
-        <button @click="completeOrder" class="completeOrder">
-          COMPLETE YOUR Order
-        </button>
-      </div>
+      
       <Loading 
-        v-if="loader"
+        v-if="completeLoader"
       />
   </div>
 </template>
@@ -36,7 +44,10 @@ export default {
     return{
       cart: [],
       totalPrice: 0,
-      loader: false
+      fetchLoader: true,
+      completeLoader: false,
+      emptycart: false
+      
     }
   },
   methods: {
@@ -46,12 +57,19 @@ export default {
             .then(res => res.json())
             .catch(err => {console.log(err)})
         )
+        this.fetchLoader = false
     },
     loadCart() {
         let carted = JSON.parse(localStorage.getItem('cart'))
-        for (let i = 0; i < carted.length; i++) {
-            this.fetchCart(carted[i])
+        if(carted.length) {
+          for (let i = 0; i < carted.length; i++) {
+              this.fetchCart(carted[i])
+          }
+        } else {
+          this.fetchLoader = false
+          this.emptycart = true
         }
+        
     },
     updatePrice(price) {
       this.totalPrice += price
@@ -61,6 +79,9 @@ export default {
     },
     removeItem(id) {
       this.cart = this.cart.filter(item => item.id != id)
+      if(!this.cart.length) [
+          this.emptycart = true
+      ]
     },
     loadPayment(user) {
       this.loader = false
@@ -84,7 +105,12 @@ export default {
   },
   computed: {
     totalPriceRounded() {
-      return this.totalPrice.toFixed(2)
+      if(this.totalPrice) {
+        return this.totalPrice.toFixed(2)
+      } else {
+        return 0
+      }
+      
     }
   },
   mounted() {

@@ -20,7 +20,7 @@
         <p class="desc">{{ detailDesc }}</p>
         <button class="readMore" @click="toggleDesc">Read More</button>
         <div class="cartBtnDiv">
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" @click="addToCart(details.id)">Add to Cart</button>
             <button class="favBtn" @click="favControl(details.id)"><i class="material-icons" >{{ wish }}</i></button>
         </div>
   </div>
@@ -69,7 +69,27 @@ export default {
                 this.fav = true
             }
             
-        }
+        },
+
+        // functions that saves to local storage
+        saveToCartLS (id) {
+            let oldData = JSON.parse(localStorage.getItem('cart'))
+            oldData.push(id)
+            
+            localStorage.setItem('cart', JSON.stringify(oldData))
+        },
+        addToCart(id) {
+            if (!localStorage.getItem('cart')) {
+                localStorage.setItem('cart', '[]')
+            }
+            let carted = JSON.parse(localStorage.getItem('cart'))
+            if (carted.includes(id)) {
+                alert('this product has been added to cart')
+            } else {
+                this.saveToCartLS(id)
+            }
+            
+        },
     },
     computed: {
         starWidth() {

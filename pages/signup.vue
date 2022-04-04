@@ -1,5 +1,6 @@
 <template>
   <div class="signup">
+      <Loading  v-if="loader" />
       <div class="signupHeader">
           Create Account
           <i class="material-icons" @click="$router.back()">close</i>
@@ -37,7 +38,8 @@ export default {
             email: '',
             profilePic: '',
             password: '',
-            imageDone: false
+            imageDone: false,
+            loader: false
         }
     },
     methods: {
@@ -82,22 +84,47 @@ export default {
             
         },
         async register() {
+            this.loader = true
             await this.$fire.authReady()
             await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
-            .then(user => this.regUser(user))
-            .catch(err => this.regError(err))
+            .then((user) => {
+                this.regUser(user)
+                this.loader = false
+            })
+            .catch((err) => {
+                this.regError(err)
+                this.loader = false
+            })
             
         },
         async signupGoogle() {
+            this.loader = true
             await this.$fire.authReady()
-            let provider = new this.$fire.auth.GoogleAuthProvider()
-            console.log(provider)
-            //var provider = await this.$firebase.auth
-            //let provider = this.$fire.auth.GoogleAuthProvider() .GoogleAuthProvider()
-            //console.log(provider)
+            let provider = new this.$fireModule.auth.GoogleAuthProvider()
+            await this.$fire.auth.signInWithPopup(provider)
+            .then((result) => {
+                console.log(result.user.displayName)
+                this.loginUser()
+                this.loader = false
+            })
+            .catch((err) => {
+                console.log(err)
+                this.loader = false
+            })
         },
         async signupFacebook() {
-
+            this.loader = true
+            await this.$fire.authReady()
+            let provider = new this.$fireModule.auth.FacebookAuthProvider()
+            await this.$fire.auth.signInWithPopup(provider)
+            .then((result) => {
+                console.log(result)
+                this.loginUser()
+                this.loader = false
+            }).catch((err) => {
+                console.log(err)
+                this.loader = false
+            })
         }
     }
 }

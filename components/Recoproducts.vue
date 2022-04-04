@@ -53,7 +53,6 @@ export default {
 
         // functions that saves to local storage
         saveToCartLS (id) {
-            
             let oldData = JSON.parse(localStorage.getItem('cart'))
             oldData.push(id)
             

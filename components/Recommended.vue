@@ -42,7 +42,7 @@ export default {
         align-items: center;
         justify-content: center;
         margin: 20px auto;
-        width: 90%;
+        width: 100%;
     }
     .recoProductsBox{
         display: flex;

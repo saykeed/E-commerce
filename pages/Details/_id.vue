@@ -3,9 +3,10 @@
       <Loading 
         v-if="$fetchState.pending"
       />
+      
       <Productdetail 
-      v-else
-      :details="details"
+        v-else
+        :details="details"
       />
   </div>
 </template>

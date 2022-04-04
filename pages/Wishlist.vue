@@ -1,13 +1,16 @@
 <template>
     <div class="wishlist">
         <Loading 
-            v-if="!products.length"
+            v-if="loader"
         />
         <Wishproduct
             v-for="product in products"
             :key="product.id"
             :product="product"
             @reloadCart="reloadCart"
+        />
+        <Emptycart 
+            v-if="emptywish"
         />
     </div>
 </template>
@@ -17,7 +20,9 @@ export default {
     layout: 'default',
     data() {
         return {
-            products: []
+            products: [],
+            loader: true,
+            emptywish: false
         }
     },
     methods: {
@@ -25,15 +30,25 @@ export default {
             this.products.push(
                 await fetch('https://fakestoreapi.com/products/' + id).then(res => res.json())
             )
+            this.loader = false
         },
         loadCart() {
             let favs = JSON.parse(localStorage.getItem('favorites'))
-            for (let i = 0; i < favs.length; i++) {
-                this.fetchCart(favs[i])
+            if(favs.length) {
+                for (let i = 0; i < favs.length; i++) {
+                    this.fetchCart(favs[i])
+                }
+            } else{
+                this.emptywish = true
+                this.loader = false
             }
+            
         },
         reloadCart(id) {
             this.products = this.products.filter(item => item.id != id)
+            if(!this.products.length) {
+                this.emptywish = true
+            }
         }
     },
     mounted() {

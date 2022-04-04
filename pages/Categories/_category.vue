@@ -39,7 +39,7 @@ export default {
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        width: 90%;
+        width: 100%;
         margin: 10px auto;
     }
 </style>

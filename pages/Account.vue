@@ -1,9 +1,10 @@
 <template>
   <div class="account">
     
-    <div class="accountHeader">
+    <!-- <div class="accountHeader">
       <p>Profile</p>
-    </div>
+    </div> -->
+
     <Loading 
       v-if="loader"
     />
@@ -86,7 +87,7 @@ export default {
   }
   .accountWrap{
     width: 80%;
-    margin: 60px auto;
+    margin: 80px auto 60px;
     
   }
   .accountHolder{
