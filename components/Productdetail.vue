@@ -216,4 +216,12 @@ export default {
         cursor: pointer;
         color: white;
     }
+
+
+
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
 </style>

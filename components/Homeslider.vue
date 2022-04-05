@@ -14,7 +14,7 @@ export default {
 
 <style scoped>
 .homeslider{
-    height: 200px;
+    height: 100%;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -58,6 +58,12 @@ export default {
         to {transform: translateX(100%)}
     }
 
+
+
+    /*for the responsieve screen of md and above*/
+        @media screen and (min-width:800px){
+            
+        }
 </style>
 
 /*

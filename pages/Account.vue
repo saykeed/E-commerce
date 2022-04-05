@@ -154,4 +154,11 @@ export default {
     cursor: pointer;
   }
   
+
+
+
+  /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
 </style>

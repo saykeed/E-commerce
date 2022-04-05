@@ -3,11 +3,12 @@
       <Loading 
         v-if="$fetchState.pending"
       />
-      
+
       <Productdetail 
         v-else
         :details="details"
       />
+      
   </div>
 </template>
 
@@ -17,7 +18,8 @@ export default {
   data () {
     return {
       productID: this.$route.params.id,
-      details: null
+      details: null,
+      network: false
     }
   }, 
   computed: { },
@@ -25,7 +27,10 @@ export default {
     this.details = await fetch(
       'https://fakestoreapi.com/products/' + this.productID
     ).then(res => res.json())
-    .catch(err => console.log(err))
+    .catch(err => {
+      this.network = true
+      console.log(err)
+    })
   }
 }
 </script>
@@ -34,5 +39,14 @@ export default {
   .detailsPage{
     text-align: center;
   }
+
+
+
+
+
+  /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
   
 </style>

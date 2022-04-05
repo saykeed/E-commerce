@@ -42,7 +42,8 @@ export default {
                 {img: 'https://cdn.shopify.com/s/files/1/0332/6420/5963/files/Slider3_2700x.jpg?v=1628696608', para: 'SUMMER SALE', head: 'Save up to 70%'}
             ],
             visibleSlide: 0,
-            slideName: ''
+            slideName: '',
+            timer: null
         }
     },
     methods: {
@@ -62,6 +63,11 @@ export default {
                 this.visibleSlide++
             }
         }
+    },
+    mounted() {
+        setInterval(() => {
+            this.next()
+        }, 5000);
     }
 }
 </script>
@@ -110,6 +116,16 @@ export default {
     .slider_indicator span.active{
         background: rgb(0, 0, 0);
     }
+
+
+
+
+    /*for the responsieve screen of md and above*/
+        @media screen and (min-width:800px){
+            .banner{
+                height: 400px;
+            }
+        }
 </style>
 
 /*

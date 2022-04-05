@@ -21,6 +21,7 @@ export default {
     }
     .emptycart img{
         width: 80%;
+        max-width: 400px;
         margin: 0 auto;
     }
 </style>

@@ -9,9 +9,9 @@
                 <i class="material-icons" >keyboard_arrow_left</i>Return Home
             </NuxtLink>
       </div>
-      <Loading 
+      <!-- <Loading 
         v-else
-      />
+      /> -->
   </div>
 </template>
 
@@ -21,10 +21,10 @@ export default {
     data() {
         return {
             reference: this.$route.query.reference,
-            success: true
+            success: false
         }
     },
-    method: {
+    methods: {
         async checkPaymentStatus() {
             const options = {
                 method: 'GET',
@@ -37,12 +37,14 @@ export default {
 
             await fetch('https://api.paystack.co/transaction/verify/' + this.reference, options)
             .then(response => response.json())
-            .then(response => paymentStatus(response))
+            .then(response => this.paymentStatus(response))
             .catch(err => console.error(err));
         },
         paymentStatus(res) {
+            console.log(res)
             if (res.data.status === 'success') {
                 this.success = true
+                localStorage.setItem('cart', '[]')
             } else {
                 alert('payment failed')
                 this.$router.push('/')
@@ -50,7 +52,7 @@ export default {
         }
     },
     mounted() {
-        
+        this.checkPaymentStatus()
     }
 }
 </script>
@@ -93,5 +95,12 @@ export default {
     }
     .middle a i{
         vertical-align: middle;
+    }
+
+
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
     }
 </style>

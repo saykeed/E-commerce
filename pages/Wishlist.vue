@@ -33,6 +33,9 @@ export default {
             this.loader = false
         },
         loadCart() {
+            if (!localStorage.getItem('favorites')) {
+                localStorage.setItem('favorites', '[]')
+            }
             let favs = JSON.parse(localStorage.getItem('favorites'))
             if(favs.length) {
                 for (let i = 0; i < favs.length; i++) {
@@ -68,6 +71,17 @@ export default {
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+
+
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
     }
 </style>
 

@@ -23,7 +23,7 @@
                 Show Order Summary
                 <i class="material-icons" >{{ summaryArrow }}</i>
                 </p>
-              <h3>${{ subtotal + shipping }}</h3>
+              <h3>${{ totalPayable }}</h3>
           </div>
           <div v-show="showOrder" class="orderSummaryWrapper">
               <Ordersummary 
@@ -37,7 +37,7 @@
                 <p>shipping <span>${{ shipping }}</span></p>
                 <div class="total">
                   <p>Total</p>
-                  <h2>${{ subtotal + shipping }}</h2>
+                  <h2>${{ totalPayable }}</h2>
                 </div>
               </div>
           </div>
@@ -185,6 +185,9 @@ export default {
       } else {
         return 'keyboard_arrow_up'
       }
+    },
+    totalPayable() {
+      return (Number(this.subtotal) + Number(this.shipping)).toFixed(2)
     }
   }
 
@@ -266,11 +269,15 @@ export default {
     .backToCart i{
       vertical-align: middle;
     }
-    /* .modal{
-      position: absolute;
-      top: 0;
-      left: 0;
-    } */
+    
+    
+
+
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
     
 
 </style>

@@ -54,6 +54,18 @@ export default {
       transform: translateX(-50%);
       bottom: 10px;
       text-align: center;
-      color: green;
+      color: white;
+      background: rgba(0, 0, 0, 0.337);
     }
+
+
+
+
+    /*for the responsieve screen of md and above*/
+        @media screen and (min-width:800px){
+            .categories{
+              width: 20vw;
+              height: 20vw;
+            }
+        }
 </style>

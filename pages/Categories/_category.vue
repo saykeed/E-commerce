@@ -3,16 +3,19 @@
         <Loading 
             v-if="!categories"
         />
-        <Recoproducts
-            v-for="product in categories"
-            :key="product.id"
-            :product="product"
-        />
+        <div class="catsProductBox">
+            <Recoproducts
+                v-for="product in categories"
+                :key="product.id"
+                :product="product"
+            />
+        </div>
     </div>
 </template>
 
 <script>
 export default {
+    layout: 'default',
     data() {
         return {
             query: this.$route.params.category,
@@ -33,13 +36,23 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .cats{
+        width: 100%;
+    }
+    .catsProductBox{
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
         width: 100%;
+        max-width: 900px;
         margin: 10px auto;
+    }
+
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
     }
 </style>

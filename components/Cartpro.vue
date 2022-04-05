@@ -140,4 +140,11 @@ export default {
         border-bottom: 1px dotted rgba(0, 0, 0, 0.234);
         padding: 5px 0;
     }
+
+
+/*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
+
 </style>

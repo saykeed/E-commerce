@@ -49,12 +49,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 div.recoproducts{
     width: 46%;
     margin: 3% 2%;
     position: relative;
     padding: 5px;
+    box-shadow: 2px 2px 5px rgba(86, 64, 64, 0.2), -2px -2px 5px rgba(0, 0, 0, 0.200);
+    border-radius: 10px;
 }
 .recoproducts i.wish{
     position: absolute;
@@ -130,4 +132,14 @@ div.recoproducts{
 .wish-move{
     transition: all 0.5s ease;
 }
+
+
+
+
+/*for the responsieve screen of md and above*/
+    @media screen and (min-width:600px){
+        div.recoproducts{
+            width: 29%;
+        }
+    }
 </style>

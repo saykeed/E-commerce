@@ -45,7 +45,7 @@ export default {
             this.$router.go(-1)
         },
         regError(err) {
-            alert(err)
+            alert(err.message)
         },
         async login() {
             this.loader = true
@@ -113,18 +113,25 @@ export default {
         align-items: center;
         justify-content: space-between;
         text-align: center;
-        margin: 20px auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: black;
+        color: white;
+        height: 50px;
+        padding: 0 3%;
     }
     .loginHeader i{
         cursor: pointer;
     }
     a.loginHome{
         text-decoration: none;
-        color: black;
+        color: white;
         cursor: pointer;
     }
     .loginwrap{
-        margin: 50px auto;
+        margin-top: 100px;
         width: 100%;
         text-align: center;
     }
@@ -186,5 +193,12 @@ export default {
         border-radius: 20px;
         margin: 15px auto;
         color: white;
+    }
+
+
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
     }
 </style>

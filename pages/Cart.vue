@@ -60,6 +60,9 @@ export default {
         this.fetchLoader = false
     },
     loadCart() {
+        if (!localStorage.getItem('cart')) {
+            localStorage.setItem('cart', '[]')
+        }
         let carted = JSON.parse(localStorage.getItem('cart'))
         if(carted.length) {
           for (let i = 0; i < carted.length; i++) {
@@ -84,17 +87,17 @@ export default {
       ]
     },
     loadPayment(user) {
-      this.loader = false
+      this.completeLoader = false
       this.$router.push({ path: '/Checkout/', query: {
         user: user
       } })
     },
     async completeOrder() {
-      this.loader = true
+      this.completeLoader = true
         await this.$fire.authReady()
         await this.$fire.auth.onAuthStateChanged((user) => {
             if (!user) {
-              this.loader = false
+              this.completeLoader = false
               alert('You need to login')
               this.$router.push('/login')
             } else {
@@ -180,4 +183,13 @@ export default {
     width: 40px;
     height: 40px;
   }
+
+
+
+
+
+  /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
 </style>

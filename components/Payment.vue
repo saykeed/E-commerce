@@ -47,6 +47,8 @@ export default {
             this.$emit('closePaymentModal')
         },
         async launchPayment() {
+            let num = parseInt(this.toPay)
+            console.log(num, this.toPay)
             const options = {
                 method: 'POST',
                 headers: {
@@ -56,15 +58,19 @@ export default {
                 },
                 body: JSON.stringify({
                     email: this.email,
-                    amount: this.toPay * 100,
-                    callback_url: 'https://saykeedshopify.netlify.app/success/'
+                    amount: num * 100,
+                    callback_url: 'http://localhost:3000/success'
+                    //'https://saykeedshopify.netlify.app/success/'
                 })
             
             };
 
             await fetch('https://api.paystack.co/transaction/initialize', options)
             .then(response => response.json())
-            .then(response => window.location.href = response.data.authorization_url)
+            .then(response => {
+                console.log('hy',response)
+                window.location.href = response.data.authorization_url
+            })
             .catch(err => console.error(err));
         },//window.location.href = 
         async getCurrentRate() {
@@ -103,6 +109,8 @@ export default {
         background: rgba(0, 0, 0, 0.854);
         color: white;
         position: fixed;
+        top:0;
+        left: 0;
     }
     .paymentModal i{
         position: absolute;
@@ -121,6 +129,7 @@ export default {
     .payment{
         background: white;
         width: 90%;
+        max-width: 500px;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -165,4 +174,9 @@ export default {
         cursor: pointer;
     }
     
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
 </style>

@@ -78,6 +78,29 @@ export default {
         to{opacity: 0;
         transform: translateY(-100px);}
     }
+
+
+
+    /*for the responsieve screen of md and above*/
+        @media screen and (min-width:800px){
+            p{
+                font-size: 20px;
+            }
+            h2{
+                font-size: 50px;
+            }
+            .sliderinfo_btn{
+                background: black;
+                width: 200px;
+                padding: 10px;
+                color: white;
+                text-align: center;
+                font-size: 20px;
+                font-weight: 500;
+                cursor: pointer;
+                display: inline-block;
+            }
+        }
 </style>
 
 

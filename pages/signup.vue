@@ -140,19 +140,28 @@ export default {
     position: relative;
 }
 .signupHeader{
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    color: white;
     text-align: center;
-    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
 }
 .signupHeader i{
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 3%;
     cursor: pointer;
 }
 .signupWrap{
     width: 100%;
-    margin-top: 60px;
+    margin-top: 100px;
 }
 .signupBtn{
     display: flex;
@@ -211,14 +220,13 @@ export default {
 .signup p.already a{
     color: red;
 }
+
+
+
+/*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
 </style>
 
 
-/*  
-
-
-
-alert('account created successful')
-            this.$router.push('/')
-
-*/

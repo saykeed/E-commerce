@@ -53,4 +53,9 @@ export default {
         white-space: nowrap;
         margin-left: 15px;
     }
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
 </style>

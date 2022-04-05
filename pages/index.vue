@@ -25,5 +25,13 @@ export default {
       width: 100%;
       overflow: hidden;
     }
+
+
+
+
+    /*for the responsieve screen of md and above*/
+    @media screen and (min-width:800px){
+        
+    }
     
 </style>

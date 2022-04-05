@@ -1,5 +1,6 @@
 <template>
     <div class="default">
+        <Bignav class="default_bignav" />
         <Sidebar class="default_sidebar" v-if="showSidebar" @emitCloseSidebar="controlSidebar"/>
         <Topnav class="default_topnav" @togSidebar="controlSidebar"/>
         <Nuxt class="webPages"/>
@@ -39,6 +40,13 @@ export default {
         width: 100%;
         z-index: 999999;
     }
+    .default_bignav{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 999999;
+        display: none;
+    }
     .default_footer{
         position: fixed;
         bottom: 0;
@@ -48,4 +56,15 @@ export default {
     .webPages{
         margin: 70px auto;
     }
+
+
+    /*for the responsieve screen of md and above*/
+        @media screen and (min-width:800px){
+            .default_bignav{
+                display: flex;
+            }
+            .default_topnav, .default_footer{
+                display: none;
+            }
+        }
 </style>
