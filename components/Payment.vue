@@ -59,7 +59,7 @@ export default {
                 body: JSON.stringify({
                     email: this.email,
                     amount: num * 100,
-                    callback_url: 'http://localhost:3000/success'
+                    callback_url: 'https://saykeedshopify.netlify.app/success/'
                     //'https://saykeedshopify.netlify.app/success/'
                 })
             
